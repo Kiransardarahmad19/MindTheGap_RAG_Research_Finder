@@ -1,0 +1,75 @@
+2025-09-30 14:27:35,163 | INFO | src.vectorstore | Initializing ChromaVectorStore | path=chroma_store collection=edu_books
+2025-09-30 14:27:35,184 | INFO | chromadb.telemetry.product.posthog | Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-09-30 14:27:35,275 | INFO | src.embeddings | Loading SentenceTransformer | model=sentence-transformers/all-mpnet-base-v2
+2025-09-30 14:27:35,278 | INFO | sentence_transformers.SentenceTransformer | Use pytorch device_name: cpu
+2025-09-30 14:27:35,278 | INFO | sentence_transformers.SentenceTransformer | Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+2025-09-30 14:27:40,945 | INFO | src.llm_groq | GroqClient initialized | model=qwen/qwen3-32b
+2025-09-30 14:27:40,956 | INFO | src.rag_service | RAGService initialized
+2025-09-30 14:27:40,957 | INFO | src.ocr | PDFIngestor ready | ocr_lang=eng save_dir=storage\pdfs
+2025-09-30 14:29:20,012 | INFO | main | Health check
+2025-09-30 14:29:38,510 | INFO | main | /ask | question='micropaper' top_k=3
+2025-09-30 14:29:38,511 | INFO | src.rag_service | Retrieve | question_len=10 top_k=3
+2025-09-30 14:29:38,598 | INFO | src.vectorstore | Querying Chroma | n_results=3
+2025-09-30 14:29:38,737 | INFO | src.rag_service | Retrieve hits | count=3 preview=[{'id': 'chunk_5', 'distance': 0.6425296068191528, 'section': None}, {'id': 'chunk_4', 'distance': 0.8016900420188904, 'section': None}, {'id': 'chunk_3', 'distance': 0.8914641737937927, 'section': None}]
+2025-09-30 14:29:38,739 | INFO | src.rag_service | Prompt to LLM | question='micropaper' ctx_chars=813
+2025-09-30 14:29:38,740 | INFO | src.llm_groq | LLM call | question_len=10 context_len=813
+2025-09-30 14:29:41,122 | INFO | src.llm_groq | LLM response | answer_len=1914
+2025-09-30 14:29:41,122 | INFO | src.rag_service | Ask complete | answer_len=1914 sources=3
+2025-09-30 14:33:39,326 | INFO | main | /ingest/url | url=https://arxiv.org/pdf/2004.07606
+2025-09-30 14:33:39,327 | INFO | src.ocr | Ingesting PDF from URL | url=https://arxiv.org/pdf/2004.07606
+2025-09-30 14:33:40,176 | INFO | src.ocr | Ingesting PDF from path | path=C:\Users\Hp\AppData\Local\Temp\tmpkndmnu31.pdf
+2025-09-30 14:33:40,849 | INFO | src.ocr | Sections kept | ['abstract']
+2025-09-30 14:33:40,850 | INFO | src.ocr | Chunked sections | total_chunks=12
+2025-09-30 14:33:42,976 | INFO | src.ocr | Embedding complete | dims=768 count=12
+2025-09-30 14:33:42,977 | INFO | src.vectorstore | Upserting into Chroma | count=12
+2025-09-30 14:33:43,010 | INFO | src.ocr | Saved original PDF | storage\pdfs\tmpkndmnu31_ccfbda81.pdf
+2025-09-30 14:33:43,011 | INFO | src.ocr | Ingest result | doc_id=tmpkndmnu31_ccfbda81 chunks=12
+2025-09-30 14:36:17,011 | INFO | main | /ingest/pdf | filename=72025DUTInternationalStudentMasterPrograms(English-TaughtMasterMajors).pdf size~=359838
+2025-09-30 14:36:17,013 | INFO | src.ocr | Ingesting PDF from path | path=C:\Users\Hp\AppData\Local\Temp\tmpf5rw94l4.pdf
+2025-09-30 14:36:17,834 | INFO | src.ocr | Sections kept | ['body']
+2025-09-30 14:36:17,834 | INFO | src.ocr | Chunked sections | total_chunks=8
+2025-09-30 14:36:19,402 | INFO | src.ocr | Embedding complete | dims=768 count=8
+2025-09-30 14:36:19,402 | INFO | src.vectorstore | Upserting into Chroma | count=8
+2025-09-30 14:36:19,425 | INFO | src.ocr | Saved original PDF | storage\pdfs\tmpf5rw94l4_82ce9ce0.pdf
+2025-09-30 14:36:19,425 | INFO | src.ocr | Ingest result | doc_id=tmpf5rw94l4_82ce9ce0 chunks=8
+2025-09-30 14:36:51,309 | INFO | main | /ask | question='Admission masters' top_k=3
+2025-09-30 14:36:51,309 | INFO | src.rag_service | Retrieve | question_len=17 top_k=3
+2025-09-30 14:36:51,366 | INFO | src.vectorstore | Querying Chroma | n_results=3
+2025-09-30 14:36:51,369 | INFO | src.rag_service | Retrieve hits | count=3 preview=[{'id': 'tmpf5rw94l4_82ce9ce0_chunk_0', 'distance': 1.4295532703399658, 'section': 'body'}, {'id': 'tmpf5rw94l4_82ce9ce0_chunk_5', 'distance': 1.5234160423278809, 'section': 'body'}, {'id': 'tmpf5rw94l4_82ce9ce0_chunk_6', 'distance': 1.5907220840454102, 'section': 'body'}]
+2025-09-30 14:36:51,371 | INFO | src.rag_service | Prompt to LLM | question='Admission masters' ctx_chars=1502
+2025-09-30 14:36:51,371 | INFO | src.llm_groq | LLM call | question_len=17 context_len=1502
+2025-09-30 14:36:53,170 | INFO | src.llm_groq | LLM response | answer_len=1855
+2025-09-30 14:36:53,170 | INFO | src.rag_service | Ask complete | answer_len=1855 sources=3
+2025-10-01 12:09:03,313 | INFO | src.vectorstore | Initializing ChromaVectorStore | path=chroma_store collection=edu_books
+2025-10-01 12:09:03,444 | INFO | chromadb.telemetry.product.posthog | Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-10-01 12:09:03,594 | INFO | src.embeddings | Loading SentenceTransformer | model=sentence-transformers/all-mpnet-base-v2
+2025-10-01 12:09:03,596 | INFO | sentence_transformers.SentenceTransformer | Use pytorch device_name: cpu
+2025-10-01 12:09:03,596 | INFO | sentence_transformers.SentenceTransformer | Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+2025-10-01 12:09:11,484 | INFO | src.llm_groq | GroqClient initialized | model=qwen/qwen3-32b
+2025-10-01 12:09:11,485 | INFO | src.rag_service | RAGService initialized
+2025-10-01 12:09:11,486 | INFO | src.ocr | PDFIngestor ready | ocr_lang=eng save_dir=storage\pdfs
+2025-10-01 12:11:05,350 | INFO | main | /ask | question='what is micropaper?' top_k=3
+2025-10-01 12:11:05,350 | INFO | src.rag_service | Retrieve | question_len=19 top_k=3
+2025-10-01 12:11:05,898 | INFO | src.vectorstore | Querying Chroma | n_results=3
+2025-10-01 12:11:06,077 | INFO | src.rag_service | Retrieve hits | count=3 preview=[{'id': 'chunk_5', 'distance': 0.5881038308143616, 'section': None}, {'id': 'chunk_24', 'distance': 0.8512112498283386, 'section': None}, {'id': 'chunk_4', 'distance': 0.8513777256011963, 'section': None}]
+2025-10-01 12:11:06,077 | INFO | src.rag_service | Prompt to LLM | question='what is micropaper?' ctx_chars=1121
+2025-10-01 12:11:06,078 | INFO | src.llm_groq | LLM call | question_len=19 context_len=1121
+2025-10-01 12:11:08,002 | INFO | src.llm_groq | LLM response | answer_len=2085
+2025-10-01 12:11:08,003 | INFO | src.rag_service | Ask complete | answer_len=2085 sources=3
+2025-10-01 12:23:28,039 | INFO | src.vectorstore | Initializing ChromaVectorStore | path=chroma_store collection=edu_books
+2025-10-01 12:23:28,060 | INFO | chromadb.telemetry.product.posthog | Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-10-01 12:23:28,174 | INFO | src.embeddings | Loading SentenceTransformer | model=sentence-transformers/all-mpnet-base-v2
+2025-10-01 12:23:28,177 | INFO | sentence_transformers.SentenceTransformer | Use pytorch device_name: cpu
+2025-10-01 12:23:28,177 | INFO | sentence_transformers.SentenceTransformer | Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+2025-10-01 12:23:33,904 | INFO | src.llm_groq | GroqClient initialized | model=qwen/qwen3-32b
+2025-10-01 12:23:33,904 | INFO | src.rag_service | RAGService initialized
+2025-10-01 12:23:33,904 | INFO | src.ocr | PDFIngestor ready | ocr_lang=eng save_dir=storage\pdfs
+2025-10-01 12:24:09,289 | INFO | main | /ask | question='what is a micro paper' top_k=3
+2025-10-01 12:24:09,289 | INFO | src.rag_service | Retrieve | question_len=21 top_k=3
+2025-10-01 12:24:09,368 | INFO | src.vectorstore | Querying Chroma | n_results=3
+2025-10-01 12:24:09,481 | INFO | src.rag_service | Retrieve hits | count=3 preview=[{'id': 'chunk_5', 'distance': 0.33466199040412903, 'section': None}, {'id': 'chunk_24', 'distance': 0.61440110206604, 'section': None}, {'id': 'chunk_13', 'distance': 0.700299084186554, 'section': None}]
+2025-10-01 12:24:09,482 | INFO | src.rag_service | Prompt to LLM | question='what is a micro paper' ctx_chars=1013
+2025-10-01 12:24:09,482 | INFO | src.llm_groq | LLM call | question_len=21 context_len=1013
+2025-10-01 12:24:13,249 | INFO | src.llm_groq | LLM response | raw_len=3049 answer_len=860
+2025-10-01 12:24:13,249 | INFO | src.llm_groq | LLM preview | 1) Plain-English Explanation:   - A micro-paper is a short (1–4 pages) academic work focusing on a single idea.   - It is often published in open archives and can function as a preprint or draft for l...
+2025-10-01 12:24:13,249 | INFO | src.rag_service | Ask complete | answer_len=860 sources=3
