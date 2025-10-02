@@ -88,8 +88,7 @@ Ask a plain question → Retrieve context → Generate answer.
 ```json
 {
   "question": "What is gradient descent?",
-  "answer": "Gradient descent is an optimization algorithm ...",
-  "sources": [...]
+  "answer": "Gradient descent is an optimization algorithm ..."
 }
 ```
 
@@ -147,7 +146,7 @@ uvicorn src.main:app --reload --port 8000
 
 ---
 
-## 🧪 Example Usage (Postman)
+## Example Usage (Postman)
 
 **Upload & ingest a PDF**  
 - `POST http://localhost:8000/ingest/pdf` → form-data → file.
@@ -163,7 +162,7 @@ uvicorn src.main:app --reload --port 8000
 
 ---
 
-## 🔮 Future Roadmap
+##  Future Roadmap
 - **Hybrid retrieval**: combine dense embeddings + BM25 + rerankers.  
 - **Cross-paper gap analysis**: compare gaps across multiple related works.  
 - **Knowledge graphs**: build networks of research topics, methods, and datasets.  
