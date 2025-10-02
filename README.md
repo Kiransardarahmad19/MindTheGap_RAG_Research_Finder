@@ -1,7 +1,7 @@
 # 📚 RAG PDF Ingestion & QA System
 
-This project is a **Retrieval-Augmented Generation (RAG)** pipeline with a FastAPI backend.  
-It allows you to:
+MindTheGap RAG Research Finder is an AI-powered system that ingests research papers (PDFs or URLs), extracts and embeds key sections, and answers queries using Groq LLMs.
+It helps researchers quickly understand papers in simple terms while identifying potential research gaps and future directions. This project:
 
 1. **Ingest any PDF** → OCR (Tesseract) → Chunk → Embed (Sentence Transformers) → Store in **ChromaDB**.
 2. **Ask questions** in plain text → Retrieve relevant chunks → Generate answers with **Groq LLM**.
