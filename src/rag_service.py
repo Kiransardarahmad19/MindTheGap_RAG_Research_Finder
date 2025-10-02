@@ -19,7 +19,6 @@ class RAGService:
         q_emb = self.embedder.encode_one(question)
         res = self.vs.query(q_emb, n_results=top_k)
 
-        # Flatten lists
         docs  = (res.get("documents") or [[]])[0]
         metas = (res.get("metadatas") or [[]])[0]
         dists = (res.get("distances") or [[]])[0]
@@ -29,10 +28,12 @@ class RAGService:
         docs, metas, dists = docs[:n], metas[:n], dists[:n]
         ids = ids[:n] if ids else []
 
-        # Log a compact view
-        preview = [{"id": ids[i] if i < len(ids) else None, "distance": dists[i], "section": metas[i].get("section") if i < len(metas) and isinstance(metas[i], dict) else None} for i in range(n)]
+        preview = [{
+            "id": ids[i] if i < len(ids) else None,
+            "distance": dists[i],
+            "section": metas[i].get("section") if i < len(metas) and isinstance(metas[i], dict) else None
+        } for i in range(n)]
         logger.info("Retrieve hits | count=%d preview=%s", n, preview[:5])
-
         return {"documents": docs, "metadatas": metas, "distances": dists, "ids": ids}
 
     def _build_context(self, docs: List[str]) -> str:
@@ -46,20 +47,20 @@ class RAGService:
         logger.debug("Context built | length=%d", len(ctx))
         return ctx
 
-    def ask(self, question: str, top_k: int = 3) -> Dict[str, Any]:
+    # ---------- Q&A ----------
+    def ask_qa(self, question: str, top_k: int = 3) -> Dict[str, Any]:
         hits = self.retrieve(question, top_k=top_k)
         context = self._build_context(hits["documents"])
-        logger.info("Prompt to LLM | question='%s' ctx_chars=%d", question[:120], len(context))
-        answer = self.llm.answer_from_context(question, context)
+        logger.info("Prompt[QA] | q='%s' ctx_chars=%d", question[:120], len(context))
+        answer = self.llm.answer_qa_from_context(question, context)
+        logger.info("Answer[QA] | len=%d", len(answer))
+        return {"question": question, "answer": answer}
 
-        sources = []
-        for i, doc in enumerate(hits["documents"]):
-            sources.append({
-                "id": hits["ids"][i] if i < len(hits.get("ids", [])) else None,
-                "document": doc,
-                "metadata": hits["metadatas"][i] if i < len(hits["metadatas"]) else None,
-                "distance": hits["distances"][i] if i < len(hits["distances"]) else None,
-            })
-
-        logger.info("Ask complete | answer_len=%d sources=%d", len(answer), len(sources))
-        return {"question": question, "answer": answer, "sources": sources}
+    # ---------- GAP ----------
+    def find_gaps(self, question: str, top_k: int = 3) -> Dict[str, Any]:
+        hits = self.retrieve(question, top_k=top_k)
+        context = self._build_context(hits["documents"])
+        logger.info("Prompt[GAP] | q='%s' ctx_chars=%d", question[:120], len(context))
+        answer = self.llm.answer_gap_from_context(question, context)
+        logger.info("Answer[GAP] | len=%d", len(answer))
+        return {"question": question, "answer": answer}
