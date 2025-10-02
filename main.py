@@ -1,4 +1,3 @@
-# main.py
 import os
 import tempfile
 from typing import List, Optional, Dict, Any
@@ -26,7 +25,7 @@ app = FastAPI(title="Research Assistant API", version="0.1.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # tighten in prod
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -50,31 +49,28 @@ class AskRequest(BaseModel):
     question: str = Field(..., min_length=1)
     top_k: int = Field(3, ge=1, le=10)
 
-class SourceItem(BaseModel):
-    id: Optional[str] = None
-    document: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
-    distance: Optional[float] = None
-
 class AskResponse(BaseModel):
     question: str
     answer: str
-    sources: List[SourceItem] = []
 
 @app.get("/health")
 def health():
     logger.info("Health check")
     return {"ok": True}
 
+# -------- Q&A endpoint --------
 @app.post("/ask", response_model=AskResponse)
 def ask(req: AskRequest):
     logger.info("/ask | question='%s' top_k=%d", req.question, req.top_k)
-    result = rag.ask(req.question, top_k=req.top_k)
-    return AskResponse(
-        question=result["question"],
-        answer=result["answer"],
-        sources=[SourceItem(**s) for s in result["sources"]],
-    )
+    result = rag.ask_qa(req.question, top_k=req.top_k)
+    return AskResponse(**result)
+
+# -------- GAP endpoint --------
+@app.post("/gaps", response_model=AskResponse)
+def gaps(req: AskRequest):
+    logger.info("/gaps | question='%s' top_k=%d", req.question, req.top_k)
+    result = rag.find_gaps(req.question, top_k=req.top_k)
+    return AskResponse(**result)
 
 # ---------- Ingest (Upload) ----------
 class IngestResponse(BaseModel):
@@ -97,7 +93,7 @@ async def ingest_pdf_endpoint(
     chunk_overlap: int = Form(50),
     dpi: int = Form(300),
 ):
-    logger.info("/ingest/pdf | filename=%s size~=%s", pdf.filename, pdf.size if hasattr(pdf, "size") else "unknown")
+    logger.info("/ingest/pdf | filename=%s size~=%s", pdf.filename, getattr(pdf, "size", "unknown"))
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
         content = await pdf.read()
         tmp.write(content)
